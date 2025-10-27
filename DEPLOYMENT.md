@@ -1,17 +1,17 @@
 # 🚀 Deployment Guide - Netflix Clone
 
-## Előfeltételek
-- MongoDB Atlas account és adatbázis
-- GitHub/Google OAuth credentials (opcionális)
+## Prerequisites
+- MongoDB Atlas account and database
+- GitHub/Google OAuth credentials (optional)
 - Vercel/Railway account
 
 ---
 
-## 📝 1. lépés: Környezeti változók beállítása
+## 📝 Step 1: Environment Variables Setup
 
-A deployment platformon (Vercel/Railway) add hozzá az alábbi környezeti változókat:
+On your deployment platform (Vercel/Railway), add the following environment variables:
 
-### Kötelező változók:
+### Required variables:
 
 ```bash
 DATABASE_URL=mongodb+srv://username:password@cluster.mongodb.net/database
@@ -20,7 +20,7 @@ NEXTAUTH_SECRET=your-random-secret-key-here
 NEXTAUTH_URL=https://your-app-domain.vercel.app
 ```
 
-### Opcionális OAuth változók:
+### Optional OAuth variables:
 
 ```bash
 GITHUB_ID=your_github_oauth_id
@@ -31,52 +31,52 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 ---
 
-## 🔐 2. lépés: OAuth Callback URL-ek frissítése
+## 🔐 Step 2: Update OAuth Callback URLs
 
-### GitHub OAuth beállítása:
+### GitHub OAuth Setup:
 
-1. Menj ide: https://github.com/settings/developers
-2. Válaszd ki az OAuth App-odat
-3. Frissítsd az **Authorization callback URL**-t:
+1. Go to: https://github.com/settings/developers
+2. Select your OAuth App
+3. Update the **Authorization callback URL**:
    ```
    https://your-app-domain.vercel.app/api/auth/callback/github
    ```
 
-### Google OAuth beállítása:
+### Google OAuth Setup:
 
-1. Menj ide: https://console.cloud.google.com/apis/credentials
-2. Válaszd ki az OAuth 2.0 Client ID-t
-3. Add hozzá az **Authorized redirect URIs**-hez:
+1. Go to: https://console.cloud.google.com/apis/credentials
+2. Select your OAuth 2.0 Client ID
+3. Add to **Authorized redirect URIs**:
    ```
    https://your-app-domain.vercel.app/api/auth/callback/google
    ```
 
 ---
 
-## 🌐 3. lépés: Deployment Vercel-en
+## 🌐 Step 3: Deployment on Vercel
 
-### Vercel Dashboard-on keresztül:
+### Via Vercel Dashboard:
 
-1. Menj ide: https://vercel.com
-2. Jelentkezz be GitHub fiókkal
-3. Kattints: **Add New... → Project**
-4. Import a `netflix` repository-t
+1. Go to: https://vercel.com
+2. Sign in with GitHub account
+3. Click: **Add New... → Project**
+4. Import the `netflix` repository
 5. Configure Project:
    - **Framework Preset**: Next.js
-   - **Build Command**: `npm run build` (vagy hagyd üresen)
-   - **Output Directory**: `.next` (vagy hagyd üresen)
-   - **Install Command**: `npm install` (vagy hagyd üresen)
+   - **Build Command**: `npm run build` (or leave empty)
+   - **Output Directory**: `.next` (or leave empty)
+   - **Install Command**: `npm install` (or leave empty)
 
-6. **Environment Variables**: Add hozzá az összes változót (lásd fent)
-7. Kattints a **Deploy** gombra!
+6. **Environment Variables**: Add all variables (see above)
+7. Click the **Deploy** button!
 
-### Vercel CLI-vel (opcionális):
+### Via Vercel CLI (optional):
 
 ```bash
-# Telepítsd a Vercel CLI-t
+# Install Vercel CLI
 npm i -g vercel
 
-# Jelentkezz be
+# Sign in
 vercel login
 
 # Deploy
@@ -88,75 +88,81 @@ vercel --prod
 
 ---
 
-## 🚂 4. lépés: Deployment Railway-en (alternatíva)
+## 🚂 Step 4: Deployment on Railway (alternative)
 
-1. Menj ide: https://railway.app
-2. Jelentkezz be GitHub fiókkal
+1. Go to: https://railway.app
+2. Sign in with GitHub account
 3. **New Project → Deploy from GitHub repo**
-4. Válaszd ki a `netflix` repository-t
-5. Add hozzá a környezeti változókat a **Variables** tab alatt
-6. Railway automatikusan buildelni és deployolni fogja az alkalmazást
+4. Select the `netflix` repository
+5. Add environment variables under the **Variables** tab
+6. Railway will automatically build and deploy your application
 
 ---
 
-## 🗄️ 5. lépés: Adatbázis feltöltése (seed)
+## 🗄️ Step 5: Database Seeding
 
-Ha még nem töltötted fel a filmeket az adatbázisba:
+If you haven't populated the database with movies yet:
 
 ```bash
 npm run seed
 ```
 
-**FONTOS**: Ezt csak egyszer kell lefuttatni!
+**IMPORTANT**: Only run this once!
 
 ---
 
-## ✅ 6. lépés: Ellenőrzés
+## ✅ Step 6: Verification
 
-1. Nyisd meg a deployment URL-t: `https://your-app-domain.vercel.app`
-2. Próbálj meg regisztrálni/bejelentkezni
-3. Ellenőrizd, hogy a filmek betöltődnek-e
-4. Teszteld az OAuth bejelentkezést (GitHub/Google)
+1. Open your deployment URL: `https://your-app-domain.vercel.app`
+2. Try to register/login
+3. Check if movies are loading
+4. Test OAuth login (GitHub/Google)
 
 ---
 
 ## 🐛 Troubleshooting
 
 ### 500 Internal Server Error:
-- Ellenőrizd, hogy az összes környezeti változó be van-e állítva
-- Ellenőrizd, hogy a `NEXTAUTH_URL` helyesen van-e beállítva (production URL)
-- Nézd meg a deployment logs-ot a platformon
+- Check if all environment variables are set
+- Verify that `NEXTAUTH_URL` is set correctly (production URL)
+- Check deployment logs on the platform
 
-### OAuth nem működik:
-- Ellenőrizd, hogy a callback URL-ek helyesen vannak-e beállítva
-- Ellenőrizd, hogy az OAuth credentials helyesek-e
+### OAuth not working:
+- Verify callback URLs are set correctly
+- Check if OAuth credentials are correct
 
-### Nincs film az oldalon:
-- Futtasd le a seed scriptet: `npm run seed`
-- Ellenőrizd, hogy a MongoDB connection string helyes-e
+### No movies on the page:
+- Run the seed script: `npm run seed`
+- Verify MongoDB connection string is correct
 
-### Build hiba:
-- Ellenőrizd, hogy a `package.json` tartalmazza az összes szükséges függőséget
-- Próbálj meg lokálisan buildeni: `npm run build`
+### Build error:
+- Check that `package.json` contains all necessary dependencies
+- Try building locally: `npm run build`
+
+### Prisma errors:
+- Make sure `prisma generate` runs during build
+- Check the build logs for Prisma-related errors
 
 ---
 
-## 📚 Hasznos linkek
+## 📚 Useful Links
 
 - [Vercel Documentation](https://vercel.com/docs)
 - [Railway Documentation](https://docs.railway.app)
 - [NextAuth.js Documentation](https://next-auth.js.org)
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- [Prisma Documentation](https://www.prisma.io/docs)
 
 ---
 
-## 🔒 Biztonsági megjegyzések
+## 🔒 Security Notes
 
-- **SOHA** ne commitolj `.env` fájlokat a repository-ba!
-- Használj erős, random secret key-eket production környezetben
-- Rendszeresen frissítsd az OAuth credentials-t
-- Korlátozd az OAuth callback URL-eket csak a saját domainedre
+- **NEVER** commit `.env` files to the repository!
+- Use strong, random secret keys in production
+- Regularly update OAuth credentials
+- Restrict OAuth callback URLs to your own domain only
 
 ---
 
-**Sikeres deployment-et! 🎉**
+**Happy deployment! 🎉**
+
