@@ -106,16 +106,17 @@ const Auth = () => {
             <button onClick={variant === 'login' ? login : register} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
               {variant === 'login' ? 'Login' : 'Sign up'}
             </button>
+            {/* OAuth Login - Uncomment to enable Google and GitHub login */}
+            {/* 
             <div className="flex flex-row items-center gap-4 mt-8 justify-center">
-              {/* Google OAuth Login */}
               <div onClick={() => signIn('google', { callbackUrl: '/profiles' })} className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition">
                 <FcGoogle size={32} />
               </div>
-              {/* GitHub OAuth Login */}
               <div onClick={() => signIn('github', { callbackUrl: '/profiles' })} className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition">
                 <FaGithub size={32} />
               </div>
             </div>
+            */}
             <p className="text-neutral-500 mt-12">
               {variant === 'login' ? 'First time using Netflix?' : 'Already have an account?'}
               <span onClick={toggleVariant} className="text-white ml-1 hover:underline cursor-pointer">
